@@ -84,11 +84,6 @@ if(!defined('PSM_INSTALL') || !PSM_INSTALL) {
 		header('Location: install.php');
 		die();
 	}
-	// config load OK, make sure database version is up to date
-	$installer = new \psm\Util\Install\Installer($db);
-	if($installer->isUpgradeRequired()) {
-		die('Your database is for an older version and requires an upgrade, <a href="install.php">please click here</a> to update your database to the latest version.');
-	}
 }
 
 $lang = psm_get_conf('language', 'en_US');
