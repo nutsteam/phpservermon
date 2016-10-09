@@ -50,7 +50,7 @@ class ServerController extends AbstractServerController {
 		), 'index');
 
 		// make sure only admins are allowed to edit/delete servers:
-		$this->setMinUserLevelRequiredForAction(PSM_USER_ADMIN, array(
+		$this->setMinUserLevelRequiredForAction(PSM_USER_USER, array(
 			'delete', 'edit', 'save'
 		));
 		$this->twig->addGlobal('subtitle', psm_get_lang('menu', 'server'));
@@ -66,7 +66,7 @@ class ServerController extends AbstractServerController {
 		$this->setSidebar($sidebar);
 
 		// check if user is admin, in that case we add the buttons
-		if($this->getUser()->getUserLevel() == PSM_USER_ADMIN) {
+		if($this->getUser()->getUserLevel() <= PSM_USER_USER) {
 			$modal = new \psm\Util\Module\Modal($this->twig, 'delete', \psm\Util\Module\Modal::MODAL_TYPE_DANGER);
 			$this->addModal($modal);
 			$modal->setTitle(psm_get_lang('servers', 'delete_title'));
@@ -141,6 +141,7 @@ class ServerController extends AbstractServerController {
 
 		$tpl_data = $this->getLabels();
 		$tpl_data['edit_server_id'] = $this->server_id;
+		$tpl_data['user_level'] = $this->getUser()->getUserLevel();
 		$tpl_data['url_save'] = psm_build_url(array(
 			'mod' => 'server',
 			'action' => 'save',
@@ -234,24 +235,24 @@ class ServerController extends AbstractServerController {
 			return $this->executeIndex();
 		}
 
-         $encrypted_password  = '';
+        $encrypted_password  = '';
 
-         if ( !empty( $_POST['website_password'] ))          {
-             $new_password = psm_POST('website_password');
+        if ( !empty( $_POST['website_password'] ))          {
+            $new_password = psm_POST('website_password');
 
-             if ($this->server_id > 0) {
-                 $edit_server = $this->getServers($this->server_id);
-                 $hash        = sha1($edit_server['website_password']);
+            if ($this->server_id > 0) {
+                $edit_server = $this->getServers($this->server_id);
+                $hash        = sha1($edit_server['website_password']);
 
-                 if ($new_password == $hash) {
-                     $encrypted_password = $edit_server['website_password'];
-                 } else {
-                     $encrypted_password = psm_password_encrypt($this->server_id . psm_get_conf('password_encrypt_key'), $new_password);
-                 }
-             } else {
-                 // We need the server id to encrypt the password. Encryption will be done after the server is added
-                 $encrypted_password = '';
-             }
+                if ($new_password == $hash) {
+                    $encrypted_password = $edit_server['website_password'];
+                } else {
+                    $encrypted_password = psm_password_encrypt($this->server_id . psm_get_conf('password_encrypt_key'), $new_password);
+                }
+            } else {
+                // We need the server id to encrypt the password. Encryption will be done after the server is added
+                $encrypted_password = '';
+            }
          }
 
 		$clean = array(
@@ -326,6 +327,9 @@ class ServerController extends AbstractServerController {
 		// update users
 		$user_idc = psm_POST('user_id', array());
 		$user_idc_save = array();
+
+		if($this->getUser()->getUserLevel() == PSM_USER_USER)
+			$user_idc = array($this->getUser()->getUserId());
 
 		foreach($user_idc as $user_id) {
 			$user_idc_save[] = array(

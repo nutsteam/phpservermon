@@ -27,7 +27,7 @@
 			<td class="tight hidden-phone">
 				<div class="table-cell-title">
 					<a class="btn btn-small" href="{{ server.url_view|raw }}"><i class="icon-chart"></i></a>
-					{% if user_level == 10 %}
+					{% if user_level <= 20 %}
 						<a class="btn btn-small" href="{{ server.url_edit|raw }}" title="{{ label_edit }}"><i class="icon-pencil"></i></a>
 						<a class="btn btn-small btn-danger show-modal" href="{{ server.url_delete|raw }}" title="{{ label_delete }}" data-modal-id="delete" data-modal-param="{{ server.label }}"><i class="icon-remove icon-white"></i></a>
 					{% endif %}
