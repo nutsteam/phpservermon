@@ -51,18 +51,6 @@ body.black_background .page-header  h1 {
 	width: 100%;
 }
 
-#sidebar-container {
-	display: table-cell;
-	vertical-align: top;
-	width: 1px;
-	white-space: nowrap;
-}
-
-#page-container {
-	display: table-cell;
-	vertical-align: top;
-}
-
 .powered {
 	display: inline-block;
 	white-space: nowrap;

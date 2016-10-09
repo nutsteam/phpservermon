@@ -1,1 +1,19 @@
 .controls #ip {width:500px;}
+
+#page-container {width: 100%; float: left; display: inline;}
+#page-container .table-info {width: 30%;min-width: 150px; float: left; display: inline;}
+#page-container #history-panel {width: 70%; min-width: 300px; float: left; display: inline;}
+
+#sidebar-container {
+	display: inline;
+	float: left;
+	position: absolute;
+	top:55px;
+	right: 10px;
+}
+
+#sidebar-container .nav-list li{
+	display: inline;
+	float: left;
+	margin-left: 10px;
+}

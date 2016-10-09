@@ -164,7 +164,7 @@ $sm_lang = array(
 		'hour' => '小时',
 		'warning_threshold' => '报警阈值',
 		'warning_threshold_description' => '失败达到多少次数则标记为离线.',
-		'chart_last_week' => '上周',
+		'chart_last_week' => '近一周',
 		'chart_history' => '更早',
 		// Charts date format according jqPlot date format  http://www.jqplot.com/docs/files/plugins/jqplot-dateAxisRenderer-js.html
 		'chart_day_format' => '%Y-%m-%d',
