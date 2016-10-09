@@ -38,10 +38,99 @@ class LoginController extends AbstractController {
 		$this->setMinUserLevelRequired(PSM_USER_ANONYMOUS);
 
 		$this->setActions(array(
-			'login', 'forgot', 'reset',
+			'login', 'forgot', 'reset', 'reg',
 		), 'login');
 
 		$this->addMenu(false);
+	}
+
+	protected function executeReg() {
+
+		$tpl_data = array(
+			'titlemode'  => psm_get_lang('users', 'register'),
+			'label_register' => psm_get_lang('users', 'register'),
+			'label_go_back' => psm_get_lang('system', 'go_back'),
+			'label_name' => psm_get_lang('users', 'name'),
+			'label_user_name' => psm_get_lang('users', 'user_name'),
+			'label_password' => psm_get_lang('users', 'password'),
+			'label_password_repeat' => psm_get_lang('users', 'password_repeat'),
+			'label_level' => psm_get_lang('users', 'level'),
+			'label_mobile' => psm_get_lang('users', 'mobile'),
+			'label_email' => psm_get_lang('users', 'email'),
+			'label_save' => psm_get_lang('system', 'save'),
+			'url_save' => psm_build_url(array(
+				'mod' => 'login',
+				'action' => 'reg',
+				'post' => 1,
+			)),
+			'level' => psm_get_lang('users', 'level_' . $user->level),
+			'placeholder_password' => psm_get_lang('users', 'password'),
+		);
+
+		if(isset($_POST['user_name'])) {
+
+			$fields = array('name', 'user_name', 'password', 'password_repeat', 'level', 'mobile', 'pushover_key', 'pushover_device', 'email');
+
+			$clean = array();
+			foreach($fields as $field) {
+				if(isset($_POST[$field])) {
+					$clean[$field] = trim(strip_tags($_POST[$field]));
+					$tpl_data["edit_value_".$field] = $clean[$field];
+				} else {
+					$clean[$field] = '';
+				}
+			}
+
+			$user = $this->getUser()->getUserByUsername($clean['user_name']);
+
+			if(!empty($user)) {
+				$this->addMessage(psm_get_lang('login', 'error_user_exists'), 'error');
+				return $this->twig->render('module/user/login/reg.tpl.html', $tpl_data);
+			}
+
+			$user_validator = $this->container->get('util.user.validator');
+
+			try {
+				$user_validator->username($clean['user_name'], $user_id);
+				$user_validator->email($clean['email']);
+				$user_validator->password($clean['password'], $clean['password_repeat']);
+
+				if(!empty($clean['password'])) {
+					$password = $clean['password'];
+				}
+				
+				$clean["level"] = PSM_USER_USER;
+				unset($clean['password_repeat']);
+				$user_id = $this->db->save(PSM_DB_PREFIX.'users', $clean);
+
+				if(empty($user_id))
+					$this->addMessage(psm_get_lang('users', $this->db->getError()), 'error');
+
+			} catch(\InvalidArgumentException $e) {
+				$this->addMessage(psm_get_lang('users', 'error_' . $e->getMessage()), 'error');
+				return $this->twig->render('module/user/login/reg.tpl.html', $tpl_data);
+			}
+
+			$this->getUser()->changePassword($user_id, $password);
+			$this->addMessage(psm_get_lang('users', 'inserted'), 'success');
+
+			$event = \psm\Module\User\UserEvents::USER_ADD;
+			$this->container->get('event')->dispatch(
+				$event,
+				new \psm\Module\User\Event\UserEvent($user_id, $this->getUser()->getUserId())
+			);
+
+			$result = $this->getUser()->loginWithPostData(
+				$clean['user_name'],
+				$password,
+				true
+			);
+
+			header('Location: /');
+			die();
+		}
+
+		return $this->twig->render('module/user/login/reg.tpl.html', $tpl_data);
 	}
 
 	protected function executeLogin() {
@@ -68,6 +157,7 @@ class LoginController extends AbstractController {
 			'label_password' => psm_get_lang('login', 'password'),
 			'label_remember_me' => psm_get_lang('login', 'remember_me'),
 			'label_login' => psm_get_lang('login', 'login'),
+			'label_register' => psm_get_lang('users', 'register'),
 			'label_password_forgot' => psm_get_lang('login', 'password_forgot'),
 			'value_user_name' => (isset($_POST['user_name'])) ? $_POST['user_name'] : '',
 			'value_rememberme' => (isset($rememberme) && $rememberme) ? 'checked="checked"' : '',

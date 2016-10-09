@@ -56,7 +56,7 @@ function psm_get_lang() {
 	eval('if (isset(' . $nodeDefault . ')) $resultDefault = ' . $nodeDefault . ';');
 
 	if (empty($result)) {
-		return $resultDefault;
+		return strlen($resultDefault) ? $resultDefault : $args[1];
 	} else {
 		return $result;
 	}

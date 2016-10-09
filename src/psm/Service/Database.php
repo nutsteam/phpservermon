@@ -73,6 +73,8 @@ class Database {
 	 */
 	protected $status = false;
 
+	protected $error  = null;
+
 	/**
 	 * Constructor
 	 *
@@ -532,5 +534,10 @@ class Database {
 	 */
 	protected function error(\PDOException $e) {
 		trigger_error('SQL error: ' . $e->getMessage(), E_USER_WARNING);
+		$this->error = $e->getMessage();
+	}
+
+	public function getError() {
+		return $this->error;
 	}
 }

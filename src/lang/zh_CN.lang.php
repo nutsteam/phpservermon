@@ -45,7 +45,7 @@ $sm_lang = array(
 		'add_new' => '添加',
 		'update_available' => '发现新版本({version}) <a href="http://www.phpservermonitor.org" target="_blank">http://www.phpservermonitor.org</a>.',
 		'back_to_top' => '返回顶部',
-		'go_back' => '后退',
+		'go_back' => '返回',
 		'ok' => 'OK',
 		'cancel' => 'Cancel',
 		// date/time format according the strftime php function format parameter http://php.net/manual/function.strftime.php
@@ -72,8 +72,8 @@ $sm_lang = array(
 	),
 	'users' => array(
 		'user' => '用户',
-		'name' => '名称',
-		'user_name' => '用户名',
+		'name' => '姓名',
+		'user_name' => '登录用户名',
 		'password' => '密码',
 		'password_repeat' => '重复密码',
 		'password_leave_blank' => '留空为不修改',
@@ -104,6 +104,7 @@ $sm_lang = array(
 		'error_user_no_match' => '该用户名不存在.',
 		'error_user_password_invalid' => '密码无效.',
 		'error_user_password_no_match' => '密码不符.',
+		'register' => '注册',
 	),
 	'log' => array(
 		'title' => '日志概览',
