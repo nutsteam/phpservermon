@@ -8,3 +8,5 @@
 /.vagrant/
 /puphpet/files/dot/ssh/
 *.bak
+.buildpath
+.settings
