@@ -28,7 +28,7 @@ function send_msg_ucpaas($accountSid, $accountToken, $phone, $message)
 	$data = json_encode($data);
 
 	$api = "https://api.ucpaas.com/{$SoftVersion}/Accounts/{$accountSid}/{$function}/{$operation}?sig={$SigParameter}";
-	$cmd = "curl -XPOST -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: $Authorization' '$api' -d '$data'";
+	$cmd = "curl -s -XPOST -H 'Content-Type: application/json;charset=utf-8' -H 'Accept: application/json' -H 'Authorization: $Authorization' '$api' -d '$data'";
 	$json = `$cmd`;
 	$json = json_decode($json, true);
 
@@ -44,9 +44,10 @@ class UcPaas extends Core {
 	public $successcount = 0;
 
 	public function sendSMS($message) {
+		var_dump($message);
 
 		foreach( $this->recipients as $phone ){
-			$result = send_msg_ucpaas($this->username, $this->password, $phone, $message);
+			//$result = send_msg_ucpaas($this->username, $this->password, $phone, $message);
 		}
 
 		return $result;
