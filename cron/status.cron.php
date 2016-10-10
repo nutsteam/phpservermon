@@ -26,6 +26,7 @@
  **/
 
 // include main configuration and functionality
+$router = new psm\Router();
 require_once __DIR__ . '/../src/bootstrap.php';
 
 if(!psm_is_cli()) {
