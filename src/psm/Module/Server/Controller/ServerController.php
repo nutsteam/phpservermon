@@ -52,6 +52,9 @@ class ServerController extends AbstractServerController {
             $this->region_id = isset($this->region_list[$region]) ? $region : PSM_REGION_ID;
 
             define('SERVER_VIEW_REGION', $this->region_id);
+
+            $this->twig->addGlobal('region_id',   $this->region_id);
+            $this->twig->addGlobal('region_name', $this->region_list[$this->region_id]);
         }
 
 		$this->setCSRFKey('server');
