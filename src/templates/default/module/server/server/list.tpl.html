@@ -8,14 +8,21 @@
 			<th class="visible-desktop">{{ label_type }}</th>
 			<th class="hidden-phone">{{ label_rtime }}</th>
 			<th class="hidden-phone">{{ label_last_online }}</th>
-			<th class="hidden-phone">{{ label_monitoring }}</th>
+			<th class="hidden-phone" style="min-width:60px;">{{ label_monitoring }}</th>
+			<th style="min-width:60px;"> Region </th>
 			<th class="hidden-phone">{{ label_action }}</th>
 		</tr>
 	</thead>
 	<tbody>
 		{% for server in servers %}
 		<tr>
-			<td class="hidden-phone"><div class="table-cell-title"><span class="label label-status-{{ server.status }}"><a href="{{ server.url_view|raw }}" title="{{ server.error }}">{{ server.status }}</a></span></div></td>
+			<td class="hidden-phone">
+                <div class="table-cell-title">
+                    <span class="label label-status-{{ server.status }}">
+                        <a href="{{ server.url_view|raw }}" title="{{ server.error }}">{{ server.status }}</a>
+                    </span>
+                </div>
+            </td>
 			<td class="hidden-phone"><div class="table-cell-title"><a href="{{ server.url_view|raw }}">{{ server.label }}</a></div></td>
 			<td class="nowrap visible-tablet"><div class="table-cell-title"><i class="{{ server.type_icon }}" title="{{ server.type }}"></i> {{ server.ip_short|raw }}</div></td>
 			<td class="nowrap visible-desktop"><div class="table-cell-title">{{ server.ip|raw }}</div></td>
@@ -24,6 +31,13 @@
 			<td class="nowrap hidden-phone"><div class="table-cell-title">{{ server.rtime }} s</div></td>
 			<td class="nowrap hidden-phone"><div class="table-cell-title">{{ server.last_online }}</div></td>
 			<td class="tight hidden-phone"><div class="table-cell-title"><i class="{{ server.active_icon }}" title="{{ server.active_title }}"></i> <i class="{{ server.email_icon }}" title="{{ label_email }}"></i> <i class="{{ server.sms_icon }}" title="{{ label_sms }}"></i> <i class="{{ server.pushover_icon }}" title="Pushover"></i></div></td>
+			<td>
+				<div class="table-cell-title">
+					{% for key,region in region_list %}
+                        <i><a href="{{ server.url_view|raw }}&region={{ key }}">{{ region }}</a></i>
+					{% endfor %}
+				</div>
+			</td>
 			<td class="tight hidden-phone">
 				<div class="table-cell-title">
 					<a class="btn btn-small" href="{{ server.url_view|raw }}"><i class="icon-chart"></i></a>

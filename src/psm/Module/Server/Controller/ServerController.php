@@ -38,11 +38,21 @@ class ServerController extends AbstractServerController {
 	 * @var int $server_id
 	 */
 	protected $server_id;
+    protected $region_id;
+    protected $region_list;
 
 	function __construct(Database $db, \Twig_Environment $twig) {
 		parent::__construct($db, $twig);
 
 		$this->server_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+        if(defined('PSM_REGION_LIST')) {
+            $region = strtoupper($_GET['region']);
+            $this->region_list = json_decode(PSM_REGION_LIST, true);
+            $this->region_id = isset($this->region_list[$region]) ? $region : '127';
+
+            define('SERVER_VIEW_REGION', $this->region_id);
+        }
 
 		$this->setCSRFKey('server');
 		$this->setActions(array(
@@ -130,6 +140,7 @@ class ServerController extends AbstractServerController {
 			$servers[$x] = $this->formatServer($servers[$x]);
 		}
 		$tpl_data['servers'] = $servers;
+        $tpl_data['region_list'] = $this->region_list;
 		return $this->twig->render('module/server/server/list.tpl.html', $tpl_data);
 	}
 

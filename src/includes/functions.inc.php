@@ -274,6 +274,7 @@ function psm_log_uptime($server_id, $status, $latency) {
 			'date' => date('Y-m-d H:i:s'),
 			'status' => $status,
 			'latency' => $latency,
+            'region' => PSM_REGION_ID,
 		)
 	);
 }

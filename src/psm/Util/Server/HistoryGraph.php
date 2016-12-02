@@ -181,12 +181,14 @@ class HistoryGraph {
 		$records = $this->db->execute(
 			'SELECT *
 				FROM `' . PSM_DB_PREFIX . "servers_$type`
-				WHERE `server_id` = :server_id AND `date` BETWEEN :start_time AND :end_time ORDER BY `date` ASC",
+				WHERE `server_id` = :server_id AND `region` = :region AND `date` BETWEEN :start_time AND :end_time ORDER BY `date` ASC",
 			array(
 				'server_id' => $server_id,
+                'region'    => SERVER_VIEW_REGION,
 				'start_time' => $start_time->format('Y-m-d H:i:s'),
 				'end_time' => $end_time->format('Y-m-d H:i:s'),
 			));
+
 		return $records;
 	}
 
