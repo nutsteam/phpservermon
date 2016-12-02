@@ -49,7 +49,7 @@ class ServerController extends AbstractServerController {
         if(defined('PSM_REGION_LIST')) {
             $region = strtoupper($_GET['region']);
             $this->region_list = json_decode(PSM_REGION_LIST, true);
-            $this->region_id = isset($this->region_list[$region]) ? $region : '127';
+            $this->region_id = isset($this->region_list[$region]) ? $region : PSM_REGION_ID;
 
             define('SERVER_VIEW_REGION', $this->region_id);
         }
