@@ -78,13 +78,20 @@ class StatusUpdater {
 		$this->error = '';
 		$this->rtime = '';
 
-		// get server info from db
-		$this->server = $this->db->selectRow(PSM_DB_PREFIX . 'servers', array(
-			'server_id' => $server_id,
-		), array(
-			'server_id', 'ip', 'port', 'label', 'type', 'pattern', 'status', 'active', 'warning_threshold',
-			'warning_threshold_counter', 'timeout', 'website_username', 'website_password'
-		));
+        if(defined('PSM_REGION_MODE')) {
+            $url = sprintf("%s?mod=api&action=server&server_id=%d&token=%s", PSM_REGION_API, $server_id, time());
+            $json = `curl -s "$url"`;
+            $this->server = (array)json_decode($json, true);
+        }else{
+            // get server info from db
+            $this->server = $this->db->selectRow(PSM_DB_PREFIX . 'servers', array(
+                'server_id' => $server_id,
+            ), array(
+                'server_id', 'ip', 'port', 'label', 'type', 'pattern', 'status', 'active', 'warning_threshold',
+                'warning_threshold_counter', 'timeout', 'website_username', 'website_password'
+            ));
+        }
+
 		if(empty($this->server)) {
 			return false;
 		}
@@ -104,6 +111,15 @@ class StatusUpdater {
 			'error' => $this->error,
 			'rtime' => $this->rtime,
 		);
+
+        if(defined('PSM_REGION_MODE')) {
+            $url = sprintf("%s?mod=api&action=update&server_id=%d&status=%s&latency=%s&region=%s&token=%s",
+                PSM_REGION_API, $server_id, $this->status_new, $this->rtime, PSM_REGION_ID, time());
+            $json = `curl -s "$url" --compressed`;
+
+            $api = (array)json_decode($json, true);
+            return $this->status_new;
+        }
 
 		// log the uptime before checking the warning threshold,
 		// so that the warnings can still be reviewed in the server history.

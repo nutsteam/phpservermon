@@ -51,14 +51,6 @@ if(!empty($_SERVER['argv'])) {
 	}
 }
 
-if(PSM_REGION_ID != '127') {
-    printf("Cron start, time:%s, region:%s\n", $_SERVER["REQUEST_TIME"], PSM_REGION_ID);
-    $autorun = $router->getService('util.server.updatemanager');
-    $autorun->run(true);
-    printf("Cron finished, use time:%s, region:%s\n", time() - $_SERVER["REQUEST_TIME"], PSM_REGION_ID);
-    exit;
-}
-
 // prevent cron from running twice at the same time
 // however if the cron has been running for X mins, we'll assume it died and run anyway
 // if you want to change PSM_CRON_TIMEOUT, have a look in src/includes/psmconfig.inc.php.
@@ -77,6 +69,14 @@ if(!defined('PSM_DEBUG') || !PSM_DEBUG) {
 psm_update_conf('cron_running_time', $time);
 
 $autorun = $router->getService('util.server.updatemanager');
-$autorun->run(true);
+
+//remote mode
+
+if(PSM_REGION_MODE == 'REMOTE') {
+    $autorun->remote();
+} else {
+    //local mode
+    $autorun->run(true);
+}
 
 psm_update_conf('cron_running', 0);

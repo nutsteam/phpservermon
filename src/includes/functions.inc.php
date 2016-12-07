@@ -264,7 +264,7 @@ function psm_add_log_user($log_id, $user_id) {
  * @param int $status
  * @param string $latency
  */
-function psm_log_uptime($server_id, $status, $latency) {
+function psm_log_uptime($server_id, $status, $latency, $region = PSM_REGION_ID) {
 	global $db;
 
 	$db->save(
@@ -274,7 +274,7 @@ function psm_log_uptime($server_id, $status, $latency) {
 			'date' => date('Y-m-d H:i:s'),
 			'status' => $status,
 			'latency' => $latency,
-            'region' => PSM_REGION_ID,
+            'region' => $region,
 		)
 	);
 }

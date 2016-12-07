@@ -78,4 +78,28 @@ class UpdateManager extends ContainerAware {
 		$archive->archive();
 		$archive->cleanup();
 	}
+
+    public function remote() {
+        $url = sprintf("%s?mod=api&action=index&token=%s", PSM_REGION_API, time());
+        $json = `curl -s "$url" --compressed`;
+        $servers = (array)json_decode($json, true);
+
+        echo "fetch server list from $url\n";
+        if(empty($servers)) {
+            echo "no servers found\n";
+            exit;
+        }
+
+        echo count($servers) . " servers found\n";
+
+        $updater = new Updater\StatusUpdater($this->container->get('db'));
+        $notifier = new Updater\StatusNotifier($this->container->get('db'));
+
+        foreach($servers as $server) {
+            $status_old = ($server['status'] == 'on') ? true : false;
+            $status_new = $updater->update($server['server_id']);
+            // notify the nerds if applicable
+            $notifier->notify($server['server_id'], $status_old, $status_new);
+        }
+    }
 }
