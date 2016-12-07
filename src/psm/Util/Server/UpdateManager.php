@@ -81,7 +81,7 @@ class UpdateManager extends ContainerAware {
 
     public function remote() {
         $url = sprintf("%s?mod=api&action=index&token=%s", PSM_REGION_API, time());
-        $json = `curl -s "$url" --compressed`;
+        $json = `curl -s --connect-timeout 100 "$url" --compressed`;
         $servers = (array)json_decode($json, true);
 
         echo "fetch server list from $url\n";
