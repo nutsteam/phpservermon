@@ -47,7 +47,7 @@ class ApiController extends AbstractController {
         $servers = $this->db->select(PSM_DB_PREFIX . 'servers', array(
             'active' => 'yes',
         ), array(
-            'server_id', 'status'
+            'server_id', 'label', 'status'
         ));
         $this->ajax($servers);
     }
