@@ -8,8 +8,8 @@
 			<col />
 		</colgroup>
 		<thead>
-			<tr class="head">
-				<th colspan="2">
+			<tr>
+				<th>
 					<div class="btn-group">
 					  <button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
 						<i class="icon-th icon-white"></i>&nbsp;{{ label }}
@@ -20,6 +20,20 @@
 						<li class="{{ option.class_active }}"><a href="{{ option.url|raw }}">{{ option.label }}</a>
 						{% endfor %}
 					  </ul>
+					</div>
+				</th>
+
+				<th>
+					<div class="btn-group">
+						<button class="btn btn-success dropdown-toggle" data-toggle="dropdown">
+							<i class="icon-th icon-white"></i>&nbsp;{{ region }}
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							{% for key,region in regions %}
+							<li><a href="{{ viewurl|raw }}&region={{ key }}">{{ region }}</a>
+								{% endfor %}
+						</ul>
 					</div>
 				</th>
 			</tr>

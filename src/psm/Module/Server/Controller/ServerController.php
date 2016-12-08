@@ -452,6 +452,9 @@ class ServerController extends AbstractServerController {
 			'th-list'
 		);
 
+        $tpl_data["region"] = $this->region_id;
+        $tpl_data["regions"] = $this->region_list;
+        $tpl_data["viewurl"] = psm_build_url(array('mod' => 'server', 'action' => 'view', 'id' => $this->server_id));
 		return $this->twig->render('module/server/server/view.tpl.html', $tpl_data);
 	}
 
