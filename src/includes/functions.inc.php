@@ -545,8 +545,10 @@ function psm_build_sms() {
 			break;
 		case 'kingtto':
 			$sms = new \psm\Txtmsg\Kingtto();
+			break;
 		case 'ucpaas':
 			$sms = new \psm\Txtmsg\UcPaas();
+			break;
 		case 'smsgw':
 			$sms = new \psm\Txtmsg\Smsgw();
 			break;

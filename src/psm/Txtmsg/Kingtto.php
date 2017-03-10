@@ -2,7 +2,7 @@
 
 namespace psm\Txtmsg;
 
-class Smsgw extends Core
+class Kingtto extends Core
 {
     public function sendSMS($message)
     {
