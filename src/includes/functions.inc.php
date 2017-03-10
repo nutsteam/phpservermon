@@ -543,6 +543,8 @@ function psm_build_sms() {
 		case 'octopush':
 			$sms = new \psm\Txtmsg\Octopush();
 			break;
+		case 'kingtto':
+			$sms = new \psm\Txtmsg\Kingtto();
 		case 'ucpaas':
 			$sms = new \psm\Txtmsg\UcPaas();
 		case 'smsgw':
