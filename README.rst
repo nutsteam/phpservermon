@@ -95,6 +95,24 @@ If you are familiar with Vagrant (https://www.vagrantup.com)::
 
 .. and browse to http://localhost:8080/psm/.
 
+Mutiple region
+-------------
+
+install
+
+     git checkout mutiple_region
+     composer install
+     php phinx.php
+
+config region in config.php
+
+     define('PSM_REGION_LIST', '{"SGP":"SGP", "HKG":"hongkong"}');
+     define('PSM_REGION_ID', 'HKG');
+
+add cronjob
+
+     * * * * *     cd /wwwroot/phpservermon && php cron/status.cron.php
+
 
 Documentation
 -------------
