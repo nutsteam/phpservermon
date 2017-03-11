@@ -249,7 +249,7 @@ class StatusUpdater {
 
 		if(empty($code_matches[0])) {
 			// somehow we dont have a proper response.
-			$this->error = 'TIMEOUT ERROR: no response from server';
+			$this->error = 'TIMEOUT';
 			$result = false;
 		} else {
 			$code = $code_matches[1][0];
@@ -257,7 +257,7 @@ class StatusUpdater {
 
 			// All status codes starting with a 4 or higher mean trouble!
 			if(substr($code, 0, 1) >= '4') {
-				$this->error = "HTTP STATUS ERROR: ".$code . ' ' . $msg;
+				$this->error = "$code ERROR : " . $msg;
 				$result = false;
 			} else {
 				$result = true;
@@ -266,7 +266,7 @@ class StatusUpdater {
 				if($this->server['pattern'] != '') {
 					// Check to see if the pattern was found.
 					if(!preg_match("/{$this->server['pattern']}/i", $curl_result)) {
-						$this->error = 'TEXT ERROR : Pattern not found.';
+						$this->error = 'PatternMiss.';
 						$result = false;
 					}
 				}
