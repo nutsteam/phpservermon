@@ -275,12 +275,12 @@ $sm_lang = array(
 	),
 	// for newlines in the email messages use <br/>
 	'notifications' => array(
-		'off_sms' => '服务器 \'%LABEL%\' 宕机: ip=%IP%, port=%PORT%. Error=%ERROR%',
+		'off_sms' => '业务 %LABEL%:%PORT% 异常。%ERROR% %IP%',
 		'off_email_subject' => 'IMPORTANT: 服务器 \'%LABEL%\' 宕机',
 		'off_email_body' => "无法连接到以下服务器:<br/><br/>服务器: %LABEL%<br/>IP: %IP%<br/>Port: %PORT%<br/>错误: %ERROR%<br/>日期: %DATE%",
 		'off_pushover_title' => '服务器 \'%LABEL%\' 宕机',
 		'off_pushover_message' => "无法连接到以下服务器:<br/><br/>服务器: %LABEL%<br/>IP: %IP%<br/>Port: %PORT%<br/>错误: %ERROR%<br/>日期: %DATE%",
-		'on_sms' => '服务器 \'%LABEL%\' 运行中: ip=%IP%, port=%PORT%',
+		'on_sms' => '业务 %LABEL%:%PORT% 正常. %IP%',
 		'on_email_subject' => 'IMPORTANT: 服务器 \'%LABEL%\' 运行中',
 		'on_email_body' => "服务器 '%LABEL%' 恢复运行:<br/><br/>服务器: %LABEL%<br/>IP: %IP%<br/>Port: %PORT%<br/>日期: %DATE%",
 		'on_pushover_title' => '服务器 \'%LABEL%\' 运行中',
