@@ -99,20 +99,23 @@ Mutiple region
 -------------
 
 install
-
+```shell
      git checkout mutiple_region
      composer install
      php phinx.php
+```
 
 config region in config.php
 
+```php
      define('PSM_REGION_LIST', '{"SGP":"SGP", "HKG":"hongkong"}');
      define('PSM_REGION_ID', 'HKG');
+```
 
 add cronjob
-
+```shell
      * * * * *     cd /wwwroot/phpservermon && php cron/status.cron.php
-
+```
 
 Documentation
 -------------
