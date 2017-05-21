@@ -6,6 +6,13 @@ class Kingtto extends Core
 {
     public function sendSMS($message)
     {
+        //一些不能下发的屏蔽词列表
+        $word = [
+            "测试"=>"验证",
+        ];
+
+        $message = str_replace(array_keys($word), array_values($word), $message);
+
         $p["action"]   = "send";
         $p["userid"]   = $this->originator;
         $p["account"]  = $this->username;
