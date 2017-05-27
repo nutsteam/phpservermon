@@ -117,6 +117,17 @@ add cronjob
      * * * * *     cd /wwwroot/phpservermon && php cron/status.cron.php
 ```
 
+Api Module Install Guide
+-------------
+```shell
+     git clone https://github.com/nutsteam/PHP-Server-Monitor-API.git api
+     cd api
+     touch composer.lock
+     mkdir vendor
+     sudo -u nobody composer update
+```
+
+
 Documentation
 -------------
 
