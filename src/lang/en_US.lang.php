@@ -18,8 +18,8 @@
  * along with PHP Server Monitor.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package     phpservermon
- * @author      Pepijn Over <pep@peplab.net>
- * @copyright   Copyright (c) 2008-2015 Pepijn Over <pep@peplab.net>
+ * @author      Pepijn Over <pep@mailbox.org>
+ * @copyright   Copyright (c) 2008-2017 Pepijn Over <pep@mailbox.org>
  * @license     http://www.gnu.org/licenses/gpl.txt GNU GPL v3
  * @version     Release: @package_version@
  * @link        http://www.phpservermonitor.org/
@@ -138,6 +138,9 @@ $sm_lang = array(
 		'type_ping' => 'Ping',
 		'pattern' => 'Search string/pattern',
 		'pattern_description' => 'If this pattern is not found on the website, the server will be marked offline. Regular expressions are allowed.',
+		'header' => 'Header',
+		'header_name_description' => 'Header name (case-sensitive)',
+		'header_value_description' => 'Header value. Regular expressions are allowed.',
 		'last_check' => 'Last check',
 		'last_online' => 'Last online',
 		'monitoring' => 'Monitoring',
