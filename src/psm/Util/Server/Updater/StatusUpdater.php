@@ -87,18 +87,10 @@ class StatusUpdater {
             $this->server = $this->db->selectRow(PSM_DB_PREFIX . 'servers', array(
                 'server_id' => $server_id,
             ), array(
-                'server_id', 'ip', 'port', 'label', 'type', 'pattern', 'status', 'active', 'warning_threshold',
+                'server_id', 'ip', 'port', 'label', 'type', 'pattern', 'header_name', 'header_value', 'status', 'active', 'warning_threshold',
                 'warning_threshold_counter', 'timeout', 'website_username', 'website_password'
             ));
         }
-
-		// get server info from db
-		$this->server = $this->db->selectRow(PSM_DB_PREFIX . 'servers', array(
-			'server_id' => $server_id,
-		), array(
-			'server_id', 'ip', 'port', 'label', 'type', 'pattern', 'header_name', 'header_value', 'status', 'active', 'warning_threshold',
-			'warning_threshold_counter', 'timeout', 'website_username', 'website_password'
-		));
 
 		if(empty($this->server)) {
 			return false;
