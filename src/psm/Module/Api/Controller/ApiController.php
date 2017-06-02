@@ -40,20 +40,31 @@ class ApiController extends AbstractController {
             'index', 'server', 'update'
         ), 'index');
 
-        $this->checkToken() || $this->ajax(["error"=>"token error"]);
+        if (! $this->checkToken()) {
+            return $this->ajax(["error"=>"token error"]);
+        }
+	}
+
+	public function token($str, $privateKey=null) {
+	    $privateKey = empty($privateKey) ? $str.'psm' : $privateKey;
+
+	    return $str.substr(md5($str.$privateKey), 0, strlen($str));
 	}
 
 	protected function executeIndex() {
         $servers = $this->db->select(PSM_DB_PREFIX . 'servers', array(
             'active' => 'yes',
         ), array(
-            'server_id', 'label', 'status'
+            'server_id', 'label', 'status', 'type'
         ));
         $this->ajax($servers);
     }
 
     protected function executeServer() {
         $server_id = intval($_GET["server_id"]);
+        if (empty($server_id)) {
+            return $this->ajax(["error"=>"server_id is null"]);
+        }
 
         $servers = $this->db->selectRow(PSM_DB_PREFIX . 'servers', array(
             'server_id' => $server_id,
@@ -66,15 +77,31 @@ class ApiController extends AbstractController {
 
     protected function executeUpdate() {
         $server_id = intval($_GET["server_id"]);
-        $status = intval($_GET["status"]);
-        $latency = floatval($_GET["latency"]);
-        $region = trim($_GET["region"]);
+        $status    = intval($_GET["status"]);
+        $latency   = floatval($_GET["latency"]);
+        $region    = trim($_GET["region"]);
+
+        if (empty($server_id)) {
+            return $this->ajax(["error"=>"server_id is null"]);
+        }
+
         psm_log_uptime($server_id, $status, $latency, $region);
         $this->ajax(["error"=>"ok"]);
     }
 
     protected function checkToken() {
-        return true;
+        $token = $_GET["token"];
+        $time  = substr($token, 0, strlen($token)/2);
+
+        if (empty($token) || empty($time)) {
+            return false;
+        }
+
+        if ($time < time() - 86400) {
+            return false;
+        }
+
+        return $this->token($time) == $token;
     }
 
     protected function ajax($json) {
