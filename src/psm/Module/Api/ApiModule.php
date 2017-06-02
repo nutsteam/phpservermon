@@ -16,4 +16,9 @@ class ApiModule implements ModuleInterface {
 		);
 
 	}
+	
+	public function token($str) {
+	    $privateKey = defined('PSM_REGION_KEY') ? PSM_REGION_KEY : '';
+	    return $str.substr(md5($str.$privateKey), 0, strlen($str));
+	}
 }

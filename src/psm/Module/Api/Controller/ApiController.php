@@ -28,6 +28,7 @@
 namespace psm\Module\Api\Controller;
 use psm\Module\AbstractController;
 use psm\Service\Database;
+use psm\Module\Api\ApiModule;
 
 class ApiController extends AbstractController {
 
@@ -43,12 +44,6 @@ class ApiController extends AbstractController {
         if (! $this->checkToken()) {
             return $this->ajax(["error"=>"token error"]);
         }
-	}
-
-	public function token($str, $privateKey=null) {
-	    $privateKey = empty($privateKey) ? $str.'psm' : $privateKey;
-
-	    return $str.substr(md5($str.$privateKey), 0, strlen($str));
 	}
 
 	protected function executeIndex() {
@@ -101,7 +96,7 @@ class ApiController extends AbstractController {
             return false;
         }
 
-        return $this->token($time) == $token;
+        return (new ApiModule)->token($time) == $token;
     }
 
     protected function ajax($json) {

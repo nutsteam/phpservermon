@@ -33,6 +33,7 @@
  */
 namespace psm\Util\Server\Updater;
 use psm\Service\Database;
+use psm\Module\Api\ApiModule;
 
 class StatusUpdater {
 	public $error = '';
@@ -79,7 +80,7 @@ class StatusUpdater {
 		$this->rtime = '';
 
         if(defined('PSM_REGION_MODE')) {
-            $url = sprintf("%s?mod=api&action=server&server_id=%d&token=%s", PSM_REGION_API, $server_id, time());
+            $url = sprintf("%s?mod=api&action=server&server_id=%d&token=%s", PSM_REGION_API, $server_id, (new ApiModule)->token(time()));
             $json = `curl -s --connect-timeout 100 "$url"`;
             $this->server = (array)json_decode($json, true);
         }else{
@@ -117,7 +118,7 @@ class StatusUpdater {
 
         if(defined('PSM_REGION_MODE')) {
             $url = sprintf("%s?mod=api&action=update&server_id=%d&status=%s&latency=%s&region=%s&token=%s",
-                PSM_REGION_API, $server_id, $this->status_new, $this->rtime, PSM_REGION_ID, time());
+                PSM_REGION_API, $server_id, $this->status_new, $this->rtime, PSM_REGION_ID, (new ApiModule)->token(time()));
             $json = `curl -s --connect-timeout 100 "$url" --compressed`;
 
             $api = (array)json_decode($json, true);
