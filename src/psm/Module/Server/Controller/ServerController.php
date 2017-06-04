@@ -441,7 +441,7 @@ class ServerController extends AbstractServerController {
 		foreach($servers as $i => $server_available) {
 			$tpl_data['options'][] = array(
 				'class_active' => ($server_available['server_id'] == $this->server_id) ? 'active' : '',
-				'url' => psm_build_url(array('mod' => 'server', 'action' => 'view', 'id' => $server_available['server_id'], 'region'=>PSM_REGION_ID)),
+				'url' => psm_build_url(array('mod' => 'server', 'action' => 'view', 'id' => $server_available['server_id'], 'region'=>$_GET['region'])),
 				'label' => $server_available['label'],
 			);
 		}
