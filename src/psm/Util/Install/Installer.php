@@ -18,8 +18,8 @@
  * along with PHP Server Monitor.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @package     phpservermon
- * @author      Pepijn Over <pep@peplab.net>
- * @copyright   Copyright (c) 2008-2015 Pepijn Over <pep@peplab.net>
+ * @author      Pepijn Over <pep@mailbox.org>
+ * @copyright   Copyright (c) 2008-2017 Pepijn Over <pep@mailbox.org>
  * @license     http://www.gnu.org/licenses/gpl.txt GNU GPL v3
  * @version     Release: @package_version@
  * @link        http://www.phpservermonitor.org/
@@ -78,7 +78,7 @@ class Installer {
 
 		// different DB version, check if the version requires any changes
 		// @todo this is currently a manual check for each version, similar to upgrade().. not a clean way
-		if(version_compare($version_db, '3.1.0', '<')) {
+		if(version_compare($version_db, '3.2.0', '<')) {
 			return true;
 		} else {
 			// change database version to current version so this check won't be required next time
@@ -224,6 +224,8 @@ class Installer {
 						  `label` varchar(255) NOT NULL,
 						  `type` enum('ping','service','website') NOT NULL default 'service',
 						  `pattern` varchar(255) NOT NULL,
+						  `header_name` varchar(255) NOT NULL default '',
+						  `header_value` varchar(255) NOT NULL default '',
 						  `status` enum('on','off') NOT NULL default 'on',
 						  `error` varchar(255) NULL,
 						  `rtime` FLOAT(9, 7) NULL,
@@ -293,6 +295,9 @@ class Installer {
 		}
 		if(version_compare($version_from, '3.2.0', '<')) {
 			$this->upgrade320();
+		}
+		if(version_compare($version_from, '3.2.1', '<')) {
+			$this->upgrade321();
 		}
 		psm_update_conf('version', $version_to);
 	}
@@ -477,5 +482,14 @@ class Installer {
 
         // Drop old user_id('s) column
         $this->execSQL("ALTER TABLE `" . PSM_DB_PREFIX . "log` DROP COLUMN `user_id`;");
+	}
+
+	/**
+	 * Upgrade for v3.2.1 release
+	 */
+	protected function upgrade321() {
+		$queries = array();
+		$queries[] = "ALTER TABLE `" . PSM_DB_PREFIX . "servers` ADD COLUMN `header_name` VARCHAR(255) AFTER `pattern`, ADD COLUMN `header_value` VARCHAR(255) AFTER `header_name`";
+		$this->execSQL($queries);
 	}
 }
