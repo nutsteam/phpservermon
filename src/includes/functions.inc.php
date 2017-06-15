@@ -316,7 +316,7 @@ function psm_parse_msg($status, $type, $vars) {
  * @param string|bool $website_password Password website
  * @return string cURL result
  */
-function psm_curl_get($href, $header = false, $body = true, $timeout = null, $add_agent = true, $website_username = false, $website_password = false) {
+function psm_curl_get($href, $header = false, $body = true, $timeout = null, $add_agent = true, $website_username = false, $website_password = false, $addHeader=[]) {
 	$timeout = $timeout == null ? PSM_CURL_TIMEOUT : intval($timeout);
 
 	$ch = curl_init();
@@ -346,8 +346,12 @@ function psm_curl_get($href, $header = false, $body = true, $timeout = null, $ad
 		}
 	}
 
-	if($add_agent) {
+	if ($add_agent) {
 		curl_setopt ($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; phpservermon/'.PSM_VERSION.'; +http://www.phpservermonitor.org)');
+	}
+	
+	if (count($addHeader)) {
+	    curl_setopt ($ch, CURLOPT_HTTPHEADER, $addHeader);
 	}
 
 	$result = curl_exec($ch);

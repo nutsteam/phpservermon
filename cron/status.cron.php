@@ -66,7 +66,7 @@ if(
 	&& $cron_timeout > 0
 	&& ($time - psm_get_conf('cron_running_time') < $cron_timeout)
 ) {
-   die('Cron is already running. Exiting.');
+   //die('Cron is already running. Exiting.');
 }
 if(!defined('PSM_DEBUG') || !PSM_DEBUG) {
 	psm_update_conf('cron_running', 1);

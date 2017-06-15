@@ -73,6 +73,12 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label" for="ip">Request Headers</label>
+			<div class="controls">
+				<input type="text" id="ip" name="headers" value="{{ edit_value_headers }}" maxlength="500" data-toggle="tooltip" placeholder="Cache: no-cache; Content-Type: *" title="split with ';'"/>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label" for="warning_threshold">{{ label_warning_threshold }}</label>
 			<div class="controls">
 				<input class="input-mini" type="text" id="warning_threshold" name="warning_threshold" value="{{ edit_value_warning_threshold }}" maxlength="5" data-toggle="tooltip" title="{{ label_warning_threshold_description }}" />

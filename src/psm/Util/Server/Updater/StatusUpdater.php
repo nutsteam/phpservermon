@@ -88,7 +88,7 @@ class StatusUpdater {
             $this->server = $this->db->selectRow(PSM_DB_PREFIX . 'servers', array(
                 'server_id' => $server_id,
             ), array(
-                'server_id', 'ip', 'port', 'label', 'type', 'pattern', 'header_name', 'header_value', 'status', 'active', 'warning_threshold',
+                'server_id', 'ip', 'port', 'label', 'type', 'pattern', 'header_name', 'header_value', 'headers', 'status', 'active', 'warning_threshold',
                 'warning_threshold_counter', 'timeout', 'website_username', 'website_password'
             ));
         }
@@ -226,6 +226,11 @@ class StatusUpdater {
 	protected function updateWebsite($max_runs, $run = 1) {
 		$starttime = microtime(true);
 
+		$addHeader = [];
+		if (!empty($this->server["headers"])) {
+		    $addHeader = explode(";", trim($this->server["headers"], ";"));
+		}
+		
 		// We're only interested in the header, because that should tell us plenty!
 		// unless we have a pattern to search for!
 		$curl_result = psm_curl_get(
@@ -235,7 +240,8 @@ class StatusUpdater {
 			$this->server['timeout'],
 			true,
 			$this->server['website_username'],
-			psm_password_decrypt($this->server['server_id'] . psm_get_conf('password_encrypt_key'), $this->server['website_password'])
+			psm_password_decrypt($this->server['server_id'] . psm_get_conf('password_encrypt_key'), $this->server['website_password']),
+		    $addHeader
 		);
 
 		$this->rtime = (microtime(true) - $starttime);

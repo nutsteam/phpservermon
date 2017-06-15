@@ -215,6 +215,7 @@ class ServerController extends AbstractServerController {
 				'edit_value_pattern' => $edit_server['pattern'],
 				'edit_value_header_name' => $edit_server['header_name'],
 				'edit_value_header_value' => $edit_server['header_value'],
+			    'edit_value_headers' => $edit_server['headers'],
 				'edit_value_warning_threshold' => $edit_server['warning_threshold'],
 				'edit_website_username' => $edit_server['website_username'],
 				'edit_website_password' => empty($edit_server['website_password']) ? '' : sha1($edit_server['website_password']),
@@ -282,12 +283,14 @@ class ServerController extends AbstractServerController {
 			'pattern' => psm_POST('pattern', ''),
 			'header_name' => psm_POST('header_name', ''),
 			'header_value' => psm_POST('header_value', ''),
+		    'headers' => trim(psm_POST('headers', ''), ";"),
 			'warning_threshold' => intval(psm_POST('warning_threshold', 0)),
 			'active' => in_array($_POST['active'], array('yes', 'no')) ? $_POST['active'] : 'no',
 			'email' => in_array($_POST['email'], array('yes', 'no')) ? $_POST['email'] : 'no',
 			'sms' => in_array($_POST['sms'], array('yes', 'no')) ? $_POST['sms'] : 'no',
 			'pushover' => in_array($_POST['pushover'], array('yes', 'no')) ? $_POST['pushover'] : 'no',
 		);
+		
 		// make sure websites start with http://
 		if($clean['type'] == 'website' && substr($clean['ip'], 0, 4) != 'http') {
 			$clean['ip'] = 'http://' . $clean['ip'];
