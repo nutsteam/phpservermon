@@ -66,16 +66,16 @@
 			</div>
 		</div>
 		<div class="control-group types typeWebsite">
+			<label class="control-label" for="headers">Request Headers</label>
+			<div class="controls">
+				<input type="text" id="headers" name="headers" value="{{ edit_value_headers }}" maxlength="500" data-toggle="tooltip" placeholder="Cache: no-cache; Content-Type: *" title="split with ';'" style="width:500px"/>
+			</div>
+		</div>
+		<div class="control-group types typeWebsite">
 			<label class="control-label" for="header_name">{{ label_header }}</label>
 			<div class="controls">
 				<input type="text" id="header_name" name="header_name" value="{{ edit_value_header_name }}" maxlength="255" data-toggle="tooltip" title="{{ label_header_name_description }}" />
 				<input type="text" id="header_value" name="header_value" value="{{ edit_value_header_value }}" maxlength="255" data-toggle="tooltip" title="{{ label_header_value_description }}" />
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="ip">Request Headers</label>
-			<div class="controls">
-				<input type="text" id="ip" name="headers" value="{{ edit_value_headers }}" maxlength="500" data-toggle="tooltip" placeholder="Cache: no-cache; Content-Type: *" title="split with ';'"/>
 			</div>
 		</div>
 		<div class="control-group">

@@ -240,6 +240,10 @@ class ServerController extends AbstractServerController {
 			}
 		}
 
+		if (empty($edit_server)) {
+		    $tpl_data["edit_type_selected_website"] = "selected";
+		}
+
 		return $this->twig->render('module/server/server/update.tpl.html', $tpl_data);
 	}
 
