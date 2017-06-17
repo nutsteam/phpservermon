@@ -19,11 +19,16 @@
 }
 
 .offline, .online {
-	max-width:200px;
+	width:12%;
+	min-width:160px;
 }
 
 .offline h2, .online h2{
 	height:16px;
 	line-height:16px;
 	overflow:hidden;
+}
+
+.entity {
+	margin:3px;
 }
