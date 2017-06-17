@@ -17,3 +17,13 @@
 	float: left;
 	margin-left: 10px;
 }
+
+.offline, .online {
+	max-width:200px;
+}
+
+.offline h2, .online h2{
+	height:16px;
+	line-height:16px;
+	overflow:hidden;
+}
