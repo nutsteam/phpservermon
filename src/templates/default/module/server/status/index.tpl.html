@@ -27,8 +27,9 @@
 			<table class="table table-bordered">
 				<tbody>
 					{% for server in servers_offline %}
-						<tr class="row-offline" onclick="window.location.href='{{ server.url_view|raw }}'">
-							<td class="{{ server.class_warning }}"><div class="server-name">{{ server.label }}</div>
+						<tr class="row-offline">
+							<td class="{{ server.class_warning }}" onclick="window.location.href='{{ server.url_view|raw }}'">
+								<div class="server-name">{{ server.label }}</div>
 								<div class="visible-phone">
 									<div class="table-body">
 										<div class="table-row"><div class="table-cell-details tight">{{ label_last_online }}: &nbsp;</div><div class="table-cell-details">{{ server.last_online_nice }}</div></div>
@@ -38,11 +39,17 @@
 							</td>
 							<td class="{{ server.class_warning }} hidden-phone">{{ label_last_online }}: {{ server.last_online_nice }}</td>
 							<td class="{{ server.class_warning }} hidden-phone">{{ label_last_check }}: {{ server.last_checked_nice }}</td>
+							<td class="sla">
+								{% for region,sla in server.regions %}
+								<li class="sla{{ sla }}" onclick="window.location.href='{{ server.url_view|raw }}&amp;region={{ region }}'">{{ region }}</li>
+								{% endfor %}
+							</td>
 						</tr>
 					{% endfor %}
 					{% for server in servers_online %}
-						<tr class="row-online" onclick="window.location.href='{{ server.url_view|raw }}'">
-							<td><div class="server-name">{{ server.label }}</div>
+						<tr class="row-online">
+							<td onclick="window.location.href='{{ server.url_view|raw }}'">
+								<div class="server-name">{{ server.label }}</div>
 								<div class="visible-phone">
 									<div class="table-body">
 										<div class="table-row"><div class="table-cell-details tight">{{ label_last_online }}: &nbsp;</div><div class="table-cell-details">{{ server.last_online_nice }}</div></div>
@@ -52,6 +59,11 @@
 							</td>
 							<td class="hidden-phone">{{ label_last_online }}: {{ server.last_online_nice }}</td>
 							<td class="hidden-phone">{{ label_rtime }}: {{ server.rtime }}s</td>
+							<td class="sla">
+								{% for region,sla in server.regions %}
+								<li class="sla{{ sla }}" onclick="window.location.href='{{ server.url_view|raw }}&amp;region={{ region }}'">{{ region }}</li>
+								{% endfor %}
+							</td>
 						</tr>
 					{% endfor %}
 				</tbody>

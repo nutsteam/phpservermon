@@ -92,6 +92,23 @@ abstract class AbstractServerController extends AbstractController {
 
 		return $servers;
 	}
+	
+	protected function getServerUpRegion($server_id = 0) {
+	    $where = sprintf("date > '%s'", date("Y-m-d H:i:s", strtotime("-50 minutes")));
+	    $server_id = intval($server_id);
+	    
+	    if ($server_id) {
+	        $where .= " AND server_id = $server_id";
+	    }
+	    $sql = "select server_id, region, count(*) as ct, sum(`status`) as st from ".PSM_DB_PREFIX."servers_uptime where {$where} group by server_id, region";
+	    $servers = $this->db->query($sql);
+	    
+	    $data = array();
+	    foreach ($servers as $s) {
+	        $data[$s["server_id"]][$s["region"]] = $s["ct"] > 0 ? floor($s["st"] / $s["ct"]) * 10 : 10; 
+	    }
+	    return $data;
+	}
 
 	/**
 	 * Format server data for display

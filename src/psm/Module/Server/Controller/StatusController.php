@@ -65,6 +65,7 @@ class StatusController extends AbstractServerController {
 
 		// get the active servers from database
 		$servers = $this->getServers();
+		$regions = $this->getServerUpRegion();
 
 		$layout_data['servers_offline'] = array();
 		$layout_data['servers_online'] = array();
@@ -73,6 +74,7 @@ class StatusController extends AbstractServerController {
 			if($server['active'] == 'no') {
 				continue;
 			}
+			$server['regions'] = $regions[$server['server_id']];
 			$server['last_checked_nice'] = psm_timespan($server['last_check']);
 			$server['last_online_nice'] = psm_timespan($server['last_online']);
 			$server['url_view'] = psm_build_url(array('mod' => 'server', 'action' => 'view', 'id' => $server['server_id'], 'back_to' => 'server_status'));
