@@ -24,11 +24,13 @@ class UptimerobotController extends AbstractController {
         $list = $this->db->select(PSM_DB_PREFIX . 'servers', array(
             'type'=>'website'
         ), array(
-            'server_id', 'label', 'ip', 'port', 'status', 'type', 'pattern', 'active', 'sms'
+            'server_id', 'label', 'ip', 'port', 'status', 'type', 'headers', 'pattern', 'active', 'sms'
         ));
         
         $servers = [];
         foreach ($list as $server) {
+            //无法处理header
+            if (!empty($server["headers"])) continue;
             $servers[$server["server_id"]] = $server;
         }
        
