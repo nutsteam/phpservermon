@@ -13,6 +13,7 @@ class ApiModule implements ModuleInterface {
 	public function getControllers() {
 		return array(
 			'api' => __NAMESPACE__ . '\Controller\ApiController',
+		    'uptimerobot' => __NAMESPACE__ . '\Controller\UptimerobotController',
 		);
 
 	}
